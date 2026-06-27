@@ -25,11 +25,7 @@
 		<maven.compiler.source>25</maven.compiler.source>
 		<maven.compiler.target>25</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-		<!-- Явно объявляем версию Spring Boot, чтобы использовать её в других местах -->
 		<spring-boot.version>4.1.0</spring-boot.version>
-
-		<!-- Другие версии -->
 		<liquibase.version>4.29.1</liquibase.version>
 		<mapstruct.version>1.6.3</mapstruct.version>
 		<testcontainers.version>1.20.3</testcontainers.version>
@@ -37,22 +33,16 @@
 
 	<dependencyManagement>
 		<dependencies>
-			<!-- Мы НЕ объявляем spring-boot-starter-web и jpa здесь,
-                 потому что они уже определены в spring-boot-starter-parent -->
-
-			<!-- Но объявляем те, которых нет в родителе -->
 			<dependency>
 				<groupId>org.postgresql</groupId>
 				<artifactId>postgresql</artifactId>
 				<version>42.7.3</version>
 			</dependency>
-
 			<dependency>
 				<groupId>org.liquibase</groupId>
 				<artifactId>liquibase-core</artifactId>
 				<version>${liquibase.version}</version>
 			</dependency>
-
 			<dependency>
 				<groupId>org.mapstruct</groupId>
 				<artifactId>mapstruct</artifactId>
@@ -64,7 +54,6 @@
 				<version>${mapstruct.version}</version>
 				<scope>provided</scope>
 			</dependency>
-
 			<dependency>
 				<groupId>org.testcontainers</groupId>
 				<artifactId>testcontainers</artifactId>
@@ -82,8 +71,6 @@
 	<build>
 		<pluginManagement>
 			<plugins>
-				<!-- Spring Boot Maven Plugin уже определён в родителе,
-                     поэтому мы его здесь не объявляем -->
 				<plugin>
 					<groupId>org.liquibase</groupId>
 					<artifactId>liquibase-maven-plugin</artifactId>
