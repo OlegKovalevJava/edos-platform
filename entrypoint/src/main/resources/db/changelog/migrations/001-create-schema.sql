@@ -1,6 +1,4 @@
-CREATE SCHEMA IF NOT EXISTS edo;
-
-CREATE TABLE IF NOT EXISTS edo.documents (
+CREATE TABLE IF NOT EXISTS documents (
     id UUID PRIMARY KEY,
     status VARCHAR(20) NOT NULL,
     xml_content TEXT NOT NULL,
@@ -9,4 +7,4 @@ CREATE TABLE IF NOT EXISTS edo.documents (
     updated_at TIMESTAMP NOT NULL
 );
 
-CREATE INDEX idx_documents_company_id ON edo.documents (company_id);
+CREATE INDEX IF NOT EXISTS idx_documents_company_id ON documents (company_id);
