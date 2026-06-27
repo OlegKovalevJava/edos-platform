@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>core-domain</artifactId>
+    <artifactId>domain</artifactId>
     <name>core-domain</name>
     <description>Pure domain logic and business rules</description>
 </project>

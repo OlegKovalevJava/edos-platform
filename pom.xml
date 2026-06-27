@@ -64,8 +64,9 @@
 	</dependencyManagement>
 
 	<modules>
-		<module>core-domain</module>
-		<module>bootstrap</module>
+		<module>domain</module>
+		<module>entrypoint</module>
+		<module>usecases</module>
 	</modules>
 
 	<build>

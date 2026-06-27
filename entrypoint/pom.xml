@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>bootstrap</artifactId>
+    <artifactId>entrypoint</artifactId>
     <name>bootstrap</name>
     <description>Application entry point for EDO Platform</description>
 
