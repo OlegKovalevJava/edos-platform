@@ -1,4 +1,4 @@
-package com.logistic.edo.edos_platform;
+package com.logistic.edo;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
