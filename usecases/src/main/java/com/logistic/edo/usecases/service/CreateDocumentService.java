@@ -1,13 +1,11 @@
-package com.logistic.edo.application.service;
+package com.logistic.edo.usecases.service;
 
-import com.logistic.edo.application.command.CreateDocumentCommand;
-import com.logistic.edo.application.port.in.CreateDocumentUseCase;
+import com.logistic.edo.usecases.command.CreateDocumentCommand;
+import com.logistic.edo.usecases.port.in.CreateDocumentUseCase;
 import com.logistic.edo.domain.model.Document;
+import org.springframework.stereotype.Service;
 
-/**
- * Реализация сценария "Создать документ".
- * Содержит бизнес-логику создания документа.
- */
+@Service
 public class CreateDocumentService implements CreateDocumentUseCase {
 
     @Override

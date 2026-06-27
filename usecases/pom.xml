@@ -12,14 +12,27 @@
     </parent>
 
     <artifactId>usecases</artifactId>
-    <name>application</name>
+    <name>usecases</name>
     <description>Application Layer with Use Cases</description>
 
     <dependencies>
+        <!-- Зависимость от доменного слоя -->
         <dependency>
             <groupId>com.logistic.edo</groupId>
             <artifactId>domain</artifactId>
             <version>${project.version}</version>
+        </dependency>
+
+        <!-- Добавляем Spring-зависимости, чтобы работали аннотации (@Service) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- Для валидации (опционально, но пригодится) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
     </dependencies>
 </project>

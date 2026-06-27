@@ -1,4 +1,4 @@
-package com.logistic.edo.application.command;
+package com.logistic.edo.usecases.command;
 
 /**
  * Команда для создания нового документа в системе ЭДО.

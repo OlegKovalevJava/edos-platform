@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: edos-postgres
+    environment:
+      POSTGRES_DB: edos_db
+      POSTGRES_USER: edos_user
+      POSTGRES_PASSWORD: edos_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - edos-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  edos-network:
+    driver: bridge

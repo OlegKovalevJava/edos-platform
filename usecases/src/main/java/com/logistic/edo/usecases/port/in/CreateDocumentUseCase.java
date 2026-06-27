@@ -1,6 +1,6 @@
-package com.logistic.edo.application.port.in;
+package com.logistic.edo.usecases.port.in;
 
-import com.logistic.edo.application.command.CreateDocumentCommand;
+import com.logistic.edo.usecases.command.CreateDocumentCommand;
 import com.logistic.edo.domain.model.Document;
 
 /**
