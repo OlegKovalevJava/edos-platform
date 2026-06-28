@@ -10,7 +10,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>entrypoint</artifactId>
-    <name>bootstrap</name>
+    <name>entrypoint</name>
     <description>Application entry point for EDO Platform</description>
 
     <dependencies>

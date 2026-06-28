@@ -10,6 +10,6 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>domain</artifactId>
-    <name>core-domain</name>
+    <name>domain</name>
     <description>Pure domain logic and business rules</description>
 </project>

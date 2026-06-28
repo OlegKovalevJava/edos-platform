@@ -2,12 +2,14 @@ spring:
   application:
     name: edos-platform
 
+  # ==================== База данных ====================
   datasource:
     url: jdbc:postgresql://localhost:5432/edos_db
     username: edos_user
     password: edos_password
     driver-class-name: org.postgresql.Driver
 
+  # ==================== JPA и Hibernate ====================
   jpa:
     hibernate:
       ddl-auto: validate
@@ -17,6 +19,7 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
+  # ==================== Liquibase ====================
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
@@ -24,9 +27,8 @@ spring:
     default-schema: public
     drop-first: false
 
+  # ==================== Kafka ====================
   kafka:
-    topic:
-      document-created: document-created
     bootstrap-servers: localhost:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
@@ -38,6 +40,13 @@ spring:
       properties:
         spring.json.trusted.packages: "*"
 
+# ==================== JPA Schema Generation ====================
 spring.jpa.properties:
   javax.persistence.schema-generation.create-source: metadata
   javax.persistence.schema-generation.database.action: none
+
+# ==================== Kafka Topic Names ====================
+app:
+  kafka:
+    topic:
+      document-created: document-created

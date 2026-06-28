@@ -2,7 +2,7 @@ package com.logistic.edo.entrypoint.adapter.in.web;
 
 import com.logistic.edo.api.dto.CreateDocumentRequest;
 import com.logistic.edo.api.dto.CreateDocumentResponse;
-import com.logistic.edo.domain.model.Document;
+import com.logistic.edo.domain.model.DocumentId;  // ← Добавляем импорт DocumentId
 import com.logistic.edo.usecases.command.CreateDocumentCommand;
 import com.logistic.edo.usecases.port.in.CreateDocumentUseCase;
 import org.springframework.http.HttpStatus;
@@ -21,8 +21,16 @@ public class DocumentController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CreateDocumentResponse createDocument(@RequestBody CreateDocumentRequest request) {
-        CreateDocumentCommand command = new CreateDocumentCommand(request.xmlContent(), request.companyId());
-        Document document = createDocumentUseCase.execute(command);
-        return new CreateDocumentResponse(document.getId().toString());
+        // 1. Создаём команду из запроса
+        CreateDocumentCommand command = new CreateDocumentCommand(
+                request.xmlContent(),
+                request.companyId()
+        );
+
+        // 2. Выполняем Use Case и получаем DocumentId
+        DocumentId documentId = createDocumentUseCase.execute(command);
+
+        // 3. Возвращаем ответ с ID
+        return new CreateDocumentResponse(documentId.value().toString());
     }
 }
