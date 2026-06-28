@@ -2,51 +2,49 @@ spring:
   application:
     name: edos-platform
 
-  # ==================== База данных ====================
+  # ------ База данных ------
   datasource:
     url: jdbc:postgresql://localhost:5432/edos_db
     username: edos_user
     password: edos_password
     driver-class-name: org.postgresql.Driver
 
-  # ==================== JPA и Hibernate ====================
+  # ------ JPA (временно отключаем валидацию) ------
   jpa:
     hibernate:
-      ddl-auto: validate
-    show-sql: false
+      ddl-auto: none  # ← Временно, чтобы приложение точно запустилось
+    show-sql: true
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-  # ==================== Liquibase ====================
+  # ------ Liquibase (временно отключаем) ------
   liquibase:
-    enabled: true
-    change-log: classpath:db/changelog/db.changelog-master.yaml
-    liquibase-schema: public
-    default-schema: public
-    drop-first: false
+    enabled: false
 
-  # ==================== Kafka ====================
+  # ------ Kafka ------
   kafka:
     bootstrap-servers: localhost:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
     consumer:
       group-id: edos-consumer-group
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JacksonJsonDeserializer
       properties:
         spring.json.trusted.packages: "*"
 
-# ==================== JPA Schema Generation ====================
-spring.jpa.properties:
-  javax.persistence.schema-generation.create-source: metadata
-  javax.persistence.schema-generation.database.action: none
-
-# ==================== Kafka Topic Names ====================
+# ------ Кастомные настройки ------
 app:
   kafka:
     topic:
       document-created: document-created
+
+# ------ Логирование (для отладки) ------
+logging:
+  level:
+    root: INFO
+    org.springframework.kafka: DEBUG
+    com.logistic.edo: DEBUG

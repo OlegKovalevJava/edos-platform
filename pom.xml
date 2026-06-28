@@ -69,6 +69,7 @@
 		<module>usecases</module>
 		<module>api-contracts</module>
 		<module>entrypoint</module>
+		<module>xml-processor</module>
 	</modules>
 
 	<build>
