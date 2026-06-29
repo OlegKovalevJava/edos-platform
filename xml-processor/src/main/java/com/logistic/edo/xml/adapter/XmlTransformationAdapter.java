@@ -5,7 +5,7 @@ import com.logistic.edo.domain.port.XmlTransformationPort;
 import com.logistic.edo.xml.service.XmlTransformationService;
 import org.springframework.stereotype.Component;
 
-@Component  // ← Эта аннотация должна быть!
+@Component
 public class XmlTransformationAdapter implements XmlTransformationPort {
 
     private final XmlTransformationService xmlTransformationService;

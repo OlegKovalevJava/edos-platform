@@ -21,9 +21,8 @@ services:
     container_name: edos-kafka
     ports:
       - "9092:9092"
-      - "9093:9093"  # для внутреннего общения, если понадобится
+      - "9093:9093"
     environment:
-      # Включаем режим KRaft (без ZooKeeper)
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
@@ -36,16 +35,39 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_LOG_RETENTION_HOURS: 24
-      KAFKA_LOG_SEGMENT_BYTES: 1073741824  # 1 GB
-      # Параметры для KRaft
+      KAFKA_LOG_SEGMENT_BYTES: 1073741824
       KAFKA_STORAGE_TOOL: /opt/kafka/bin/kafka-storage.sh
       KAFKA_STORAGE_FORMAT: /opt/kafka/bin/kafka-storage.sh format -t $(KAFKA_CLUSTER_ID) -c /opt/kafka/config/kraft/server.properties
-      KAFKA_CLUSTER_ID: "Mk3UO4ZTRaC8h5L6o9M7Rw"  # Уникальный идентификатор кластера
+      KAFKA_CLUSTER_ID: "Mk3UO4ZTRaC8h5L6o9M7Rw"
     volumes:
       - kafka_data:/var/lib/kafka/data
     networks:
       - edos-network
     restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: edos-prometheus
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - edos-network
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: edos-grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - "3000:3000"
+    networks:
+      - edos-network
+    restart: unless-stopped
+    depends_on:
+      - prometheus
 
 volumes:
   postgres_data:

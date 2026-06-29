@@ -9,6 +9,5 @@ public record DocumentCreatedEvent(
         DocumentId documentId,
         String companyId,
         DocumentStatus status,
-        Instant createdAt
-) {
+        Instant createdAt) {
 }

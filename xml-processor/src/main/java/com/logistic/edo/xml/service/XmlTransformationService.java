@@ -33,9 +33,10 @@ public class XmlTransformationService {
 
     public XmlTransformationService() {
         try {
+            log.info("Initializing JAXBContext for package: com.edo.logistic.xml.document");
             this.jaxbContext = JAXBContext.newInstance("com.edo.logistic.xml.document");
             this.objectFactory = new ObjectFactory();
-            log.info("JAXBContext initialized for package: com.edo.logistic.xml.document");
+            log.info("JAXBContext initialized successfully!");
         } catch (JAXBException e) {
             log.error("Failed to initialize JAXBContext", e);
             throw new RuntimeException("Failed to initialize JAXBContext", e);
@@ -43,6 +44,7 @@ public class XmlTransformationService {
     }
 
     public String transformToXml(com.logistic.edo.domain.model.Document domainDocument) {
+        log.info("Starting XML transformation for document ID: {}", domainDocument.getId());
         try {
             Document jaxbDocument = objectFactory.createDocument();
             jaxbDocument.setId(domainDocument.getId().value().toString());
@@ -58,21 +60,24 @@ public class XmlTransformationService {
             marshaller.marshal(jaxbDocument, writer);
             String xml = writer.toString();
 
-            log.info("Transformed document {} to XML", domainDocument.getId());
+            log.info("Successfully transformed document {} to XML. XML length: {}", domainDocument.getId(), xml.length());
+            log.debug("XML content: {}", xml);
             return xml;
 
         } catch (JAXBException e) {
-            log.error("Failed to marshal document", e);
+            log.error("Failed to marshal document: {}", domainDocument.getId(), e);
             throw new RuntimeException("Failed to marshal document", e);
         }
     }
 
     public com.logistic.edo.domain.model.Document transformFromXml(String xml) {
+        log.info("Starting XML transformation from XML string");
         try {
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             StringReader reader = new StringReader(xml);
             Document jaxbDocument = (Document) unmarshaller.unmarshal(reader);
 
+            log.info("Successfully unmarshalled XML to JAXB object");
             return com.logistic.edo.domain.model.Document.reconstitute(
                     new DocumentId(UUID.fromString(jaxbDocument.getId())),
                     DocumentStatus.valueOf(jaxbDocument.getStatus()),
@@ -93,6 +98,7 @@ public class XmlTransformationService {
             GregorianCalendar calendar = GregorianCalendar.from(instant.atZone(ZoneId.systemDefault()));
             return DatatypeFactory.newInstance().newXMLGregorianCalendar(calendar);
         } catch (DatatypeConfigurationException e) {
+            log.error("Failed to convert Instant to XMLGregorianCalendar", e);
             throw new RuntimeException("Failed to convert Instant to XMLGregorianCalendar", e);
         }
     }

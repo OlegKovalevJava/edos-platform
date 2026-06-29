@@ -8,6 +8,8 @@ import com.logistic.edo.domain.port.DocumentEventPublisherPort;
 import com.logistic.edo.domain.port.XmlTransformationPort;
 import com.logistic.edo.usecases.command.CreateDocumentCommand;
 import com.logistic.edo.usecases.port.in.CreateDocumentUseCase;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,18 +21,26 @@ public class CreateDocumentService implements CreateDocumentUseCase {
 
     private final DocumentRepositoryPort documentRepository;
     private final DocumentEventPublisherPort eventPublisher;
-    private final XmlTransformationPort xmlTransformationPort; // ← порт, а не сервис
+    private final XmlTransformationPort xmlTransformationPort;
+    private final Counter documentCreatedCounter;
 
     public CreateDocumentService(DocumentRepositoryPort documentRepository,
                                  DocumentEventPublisherPort eventPublisher,
-                                 XmlTransformationPort xmlTransformationPort) {
+                                 XmlTransformationPort xmlTransformationPort,
+                                 MeterRegistry meterRegistry) {
         this.documentRepository = documentRepository;
         this.eventPublisher = eventPublisher;
-        this.xmlTransformationPort = xmlTransformationPort; // ← сохраняем порт
+        this.xmlTransformationPort = xmlTransformationPort;
+        this.documentCreatedCounter = Counter.builder("documents.created")
+                .description("Total number of created documents")
+                .register(meterRegistry);
+        log.info("CreateDocumentService initialized with XML Transformation Port and Metrics");
     }
 
     @Override
     public DocumentId execute(CreateDocumentCommand command) {
+        log.info("Executing CreateDocumentService with command: companyId={}", command.companyId());
+
         // 1. Валидация
         if (command.xmlContent() == null || command.xmlContent().isBlank()) {
             throw new IllegalArgumentException("Содержимое документа не может быть пустым");
@@ -47,8 +57,9 @@ public class CreateDocumentService implements CreateDocumentUseCase {
         Document savedDocument = documentRepository.save(document);
         log.info("Saved document with ID: {}", savedDocument.getId());
 
-        // 4. Трансформируем документ в XML через порт
-        String xml = xmlTransformationPort.transformToXml(savedDocument); // ← используем порт
+        // 4. Трансформируем документ в XML
+        log.info("Calling XML transformation for document ID: {}", savedDocument.getId());
+        String xml = xmlTransformationPort.transformToXml(savedDocument);
         log.info("Transformed document to XML: {}", xml);
 
         // 5. Публикуем событие
@@ -62,7 +73,11 @@ public class CreateDocumentService implements CreateDocumentUseCase {
         );
         log.info("Published DocumentCreatedEvent for ID: {}", savedDocument.getId());
 
-        // 6. Возвращаем ID
+        // 6. Увеличиваем счётчик метрики
+        documentCreatedCounter.increment();
+        log.info("Metrics: documents.created = {}", documentCreatedCounter.count());
+
+        // 7. Возвращаем ID
         return savedDocument.getId();
     }
 }

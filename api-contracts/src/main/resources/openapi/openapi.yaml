@@ -1,0 +1,22 @@
+openapi: 3.0.0
+
+info:
+  title: EDO Platform API
+  version: 1.0.0
+components:
+  schemas:
+    CreateDocumentRequest:
+      type: object
+      required:
+        - xmlContent
+        - companyId
+      properties:
+        xmlContent:
+          type: string
+        companyId:
+          type: string
+    CreateDocumentResponse:
+      type: object
+      properties:
+        documentId:
+          type: string
