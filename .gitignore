@@ -98,3 +98,6 @@ yarn-error.log*
 *.tmp
 *.swp
 *.swo
+/mvnw
+/mvnw.cmd
+/.mvn/wrapper/maven-wrapper.properties

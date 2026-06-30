@@ -1,0 +1,35 @@
+asyncapi: 3.0.0
+info:
+  title: EDO Platform Events
+  version: 1.0.0
+  description: События для логистической платформы
+
+channels:
+  document-created:
+    address: document-created
+    messages:
+      documentCreated:
+        $ref: '#/components/messages/DocumentCreated'
+
+components:
+  messages:
+    DocumentCreated:
+      payload:
+        type: object
+        required:
+          - documentId
+          - companyId
+          - status
+          - createdAt
+        properties:
+          documentId:
+            type: string
+            format: uuid
+          companyId:
+            type: string
+          status:
+            type: string
+            enum: [DRAFT, SENT, DELIVERED, SIGNED, REJECTED, EXPIRED]
+          createdAt:
+            type: string
+            format: date-time

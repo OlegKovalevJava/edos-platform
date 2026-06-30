@@ -1,0 +1,24 @@
+<plugin>
+	<groupId>com.zenwave360.sdk</groupId>
+	<artifactId>zenwave-asyncapi-maven-plugin</artifactId>
+	<version>1.0.0</version>
+	<executions>
+		<execution>
+			<goals>
+				<goal>generate</goal>
+			</goals>
+			<configuration>
+				<inputSpec>${project.basedir}/src/main/resources/asyncapi/asyncapi.yaml</inputSpec>
+				<outputDir>${project.build.directory}/generated-sources</outputDir>
+				<targetPackage>com.logistic.edo.events.dto</targetPackage>
+				<modelPackage>com.logistic.edo.events.dto</modelPackage>
+				<apiPackage>com.logistic.edo.events.api</apiPackage>
+				<generatorName>java-spring</generatorName>
+				<configOptions>
+					<useJakartaEe>true</useJakartaEe>
+					<useSpringBoot3>true</useSpringBoot3>
+				</configOptions>
+			</configuration>
+		</execution>
+	</executions>
+</plugin>
